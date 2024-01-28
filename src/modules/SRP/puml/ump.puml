@@ -1,0 +1,30 @@
+@startuml
+
+class OrdersController {
+  -ordersService: OrdersService
+  -emailsService: EmailsService
+  +submitOrder(submitOrderDto: SubmitOrderDto): Promise<{ message: string, orderNumber: number }>
+}
+
+note right of OrdersController::submitOrder
+    step 1 create order
+    step 2 send email
+end note
+
+class OrdersService {
+  -prisma: PrismaService
+  -emailsService: EmailsService
+  +submitOrder(data: Prisma.OrderCreateInput): Promise<Order>
+}
+
+
+class EmailsService {
+  +sendOrderEmail(orderId: number): Promise<void>
+}
+
+OrdersController --> "1" OrdersService : uses >
+OrdersController --> "1" EmailsService : (2)usesEmailService >
+OrdersService --> "1" PrismaService : uses >
+OrdersService --> "1" EmailsService : (1)usesEmailService >
+
+@enduml
