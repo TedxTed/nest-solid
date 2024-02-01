@@ -1,0 +1,25 @@
+@startuml
+
+class StorageController {
+    -storageService : StorageFetcher
+    +badGetFile(filename : string)
+}
+
+
+class StorageService {
+    +findAmazonS3File(filename : string)
+    +findGoogleCloudStorageFile(filename : string)
+}
+
+class AmazonS3 {
+}
+
+class GoogleCloudStorage {
+}
+
+StorageController ..> StorageService :use
+
+StorageService ..> AmazonS3 : interacts with
+StorageService ..> GoogleCloudStorage : interacts with
+
+@enduml

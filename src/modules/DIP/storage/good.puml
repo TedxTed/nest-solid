@@ -1,0 +1,34 @@
+@startuml
+
+abstract class StorageFetcher {
+    {abstract} +findFile(filename : string) : any
+}
+
+class StorageS3FetcherService {
+    +findFile(filename : string) : any
+}
+
+class StorageCSFetcherService {
+    +findFile(filename : string) : any
+}
+
+class StorageController {
+    -storageService : StorageFetcher
+    +getFile(filename : string) : any
+}
+
+class AmazonS3 {
+}
+
+class GoogleCloudStorage {
+}
+
+StorageFetcher <|-- StorageS3FetcherService
+StorageFetcher <|-- StorageCSFetcherService
+
+StorageController --> StorageFetcher : uses
+
+StorageS3FetcherService ..> AmazonS3 : interacts with
+StorageCSFetcherService ..> GoogleCloudStorage : interacts with
+
+@enduml

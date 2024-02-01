@@ -1,0 +1,45 @@
+@startuml
+
+class Order {
+}
+
+abstract class PaymentGateway {
+    {abstract} +processPayment(order : Order) : void
+}
+
+class CreditCardGateway {
+    +processPayment(order : Order) : void
+}
+
+class PayPalGateway {
+    +processPayment(order : Order) : void
+}
+
+class BitcoinGateway {
+    +processPayment(order : Order) : void
+}
+
+class ApplePayGateway {
+    +processPayment(order : Order) : void
+}
+
+enum PAYMENT_METHOD {
+    CREDIT_CARD
+    PAYPAL
+    BITCOIN
+}
+
+class PaymentService {
+    -paymentGateways : Record<string, PaymentGateway>
+    +registerPaymentGateway(paymentMethod : PAYMENT_METHOD, gateway : PaymentGateway) : void
+    +processPayment(order : Order, paymentMethod : PAYMENT_METHOD) : void
+}
+
+PaymentGateway <|-- CreditCardGateway
+PaymentGateway <|-- PayPalGateway
+PaymentGateway <|-- BitcoinGateway
+PaymentGateway <|-- ApplePayGateway
+
+PaymentService "1" -- "*" PaymentGateway : uses >
+
+@enduml

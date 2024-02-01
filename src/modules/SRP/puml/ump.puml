@@ -25,6 +25,5 @@ class EmailsService {
 OrdersController --> "1" OrdersService : uses >
 OrdersController --> "1" EmailsService : (2)usesEmailService >
 OrdersService --> "1" PrismaService : uses >
-OrdersService --> "1" EmailsService : (1)usesEmailService >
 
 @enduml

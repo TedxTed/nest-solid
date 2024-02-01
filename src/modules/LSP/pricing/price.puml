@@ -1,0 +1,38 @@
+@startuml
+
+interface PricingService {
+    +calculatePrice(basePrice : number) : number
+}
+
+
+class RegularPricingStrategy {
+    +calculatePrice(basePrice : number) : number
+    +fetchInternalPricing() : void
+}
+
+
+class SalePricingStrategy {
+    +calculatePrice(basePrice : number) : number
+}
+
+class OrdersController {
+    -pricingService : PricingService
+    -ordersService : OrdersService
+    +calculateOrderPrice(id : string) : Promise<{ price: number }>
+}
+
+class OrdersService {
+    +findOne(id : number) : Promise<Order>
+}
+
+class Order {
+    +totalPrice : number
+}
+
+PricingService <|.. RegularPricingStrategy
+PricingService <|.. SalePricingStrategy
+
+OrdersController --> PricingService : uses
+OrdersController --> OrdersService : uses
+
+@enduml
